@@ -1,19 +1,27 @@
 <template>
   <div class="modals">
     <h1>Modals</h1>
-    <button @click="showModal = true">Show modal</button>
-    <teleport to=".modals-container">
-      <div v-if="showModal" class="modal">
-        <h1>this is a modal</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus et
-          maxime ab debitis, distinctio molestias repudiandae maiores unde,
-          obcaecati modi possimus ad incidunt aliquam at aliquid dolore commodi.
-          Delectus, possimus.
-        </p>
-        <button @click="showModal = false">Hide modal</button>
-      </div>
-    </teleport>
+    <div>
+      <label>
+        show dark modal
+        <input v-model="showDarkModal" type="checkbox" />
+      </label>
+    </div>
+    <button @click="showModal = true">
+      {{ showDarkModal ? "dark" : "light" }}
+    </button>
+    <component
+      v-model="showModal"
+      :is="showDarkModal ? ModalDark : Modal"
+      title="My modal title (via prop)"
+    >
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus et maxime
+        ab debitis, distinctio molestias repudiandae maiores unde, obcaecati
+        modi possimus ad incidunt aliquam at aliquid dolore commodi. Delectus,
+        possimus.
+      </p>
+    </component>
   </div>
 </template>
 
@@ -22,23 +30,12 @@
     ---- imports
 */
 import { ref } from "vue";
+import Modal from "@/components/Modal.vue";
+import ModalDark from "@/components/ModalDark.vue";
 
 /* 
     ---- modals
 */
-
+const showDarkModal = ref(false);
 const showModal = ref(false);
 </script>
-
-<style>
-.modal {
-  background: beige;
-  padding: 10px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-</style>
